@@ -14,7 +14,7 @@
 		"<%= slugName %>"
 	],
 	"scripts": {
-		"test": "xo && <%= testCommand %>"
+		"test": "xo && ava test"
 	},
 	"author": {
 		"name": "<%= author %>",

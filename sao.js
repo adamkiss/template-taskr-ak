@@ -1,13 +1,6 @@
 const superb = require('superb')
 const slug = require('speakingurl')
 
-const testCommands = {
-  tape: 'tape test/*.js | tap-spec',
-  jasmine: 'jasmine test',
-  mocha: 'mocha test',
-  ava: 'ava test'
-}
-
 module.exports = {
   enforceNewFolder: true,
   templateOptions: {
@@ -22,47 +15,11 @@ module.exports = {
       message: 'How would you describe the plugin?',
       default: `my ${superb()} plugin for Taskr`
     },
-    author: {
-      message: 'What is your name?',
-      default: ':gitUser:',
-      store: true
-    },
-    email: {
-      message: 'What is your email?',
-      default: ':gitEmail:',
-      store: true
-    },
-    username: {
-      message: 'What is your GitHub username or organization?',
-      default(answers) {
-        return slug(answers.author) || ':gitUser:'
-      },
-      store: true
-    },
-    website: {
-      message: 'The URL of your website?',
-      default({username}) {
-        return `github.com/${username}`
-      },
-      store: true
-    },
     repo: {
       message: "What is your GitHub repository's URL?",
       default(answers) {
-        return `https://github.com/${answers.username}/${slug(slug(answers.name))}`;
-      },
-      store: true
-    },
-    testTool: {
-      type: 'list',
-      default: 'tape',
-      message: 'Set up default test?',
-      choices: [
-        { name: 'Tape', value: 'tape' },
-        { name: 'AVA', value: 'ava' },
-        { name: 'Jasmine', value: 'jasmine' },
-        { name: 'Mocha', value: 'mocha' }
-      ]
+        return `https://github.com/adamkiss/taskr-${slug(answers.name)}`;
+      }
     }
   },
   data(answers) {
@@ -70,7 +27,10 @@ module.exports = {
     return add = {
       slugName,
       prefixedName: `taskr-${slugName}`,
-      testCommand: testCommands[answers.testTool]
+      author: 'Adam Kiss',
+      email: 'iamadamkiss+npm@gmail.com',
+      username: 'adamkiss',
+      website: 'https://adamkiss.com/'
     }
   },
   move: {
@@ -79,12 +39,6 @@ module.exports = {
     'readme': 'readme.md',
     'node_modules/**': false,
     '.env': false,
-  },
-  filters: {
-    'test/test-tape.js': 'testTool === "tape"',
-    'test/test-ava.js': 'testTool === "ava"',
-    'test/test-jasmine.js': 'testTool === "jasmine"',
-    'test/test-mocha.js': 'testTool === "mocha"',
   },
   showTip: true,
   gitInit: true,
